@@ -302,6 +302,26 @@ func buildWorkers(cfg Config, allowed map[string]struct{}, once bool, queue stri
 					return err
 				}
 
+				var bgPath string
+				if meta.BackgroundImage != "" {
+					p, err := downloadCover(ctx, meta.BackgroundImage, claimPath, cfg.CoverDownloadTimeout, cfg.CoverDownloadMaxBytes)
+					if err != nil {
+						return fmt.Errorf("background_image download failed: %w", err)
+					}
+					defer os.Remove(p)
+					bgPath = p
+				}
+
+				var thumbPath string
+				if meta.ThumbnailImage != "" {
+					p, err := downloadCover(ctx, meta.ThumbnailImage, claimPath, cfg.CoverDownloadTimeout, cfg.CoverDownloadMaxBytes)
+					if err != nil {
+						return fmt.Errorf("thumbnail_image download failed: %w", err)
+					}
+					defer os.Remove(p)
+					thumbPath = p
+				}
+
 				return jivefireautomation.Run(jivefireautomation.Input{
 					AudioPath:        audioPath,
 					OutputPath:       outputPath,
@@ -310,8 +330,8 @@ func buildWorkers(cfg Config, allowed map[string]struct{}, once bool, queue stri
 					Channels:         meta.Channels.Int(),
 					BarColor:         meta.BarColor,
 					TextColor:        meta.TextColor,
-					BackgroundImage:  resolveOptionalPath(meta.BackgroundImage, claimPath),
-					ThumbnailImage:   resolveOptionalPath(meta.ThumbnailImage, claimPath),
+					BackgroundImage:  bgPath,
+					ThumbnailImage:   thumbPath,
 					NoPreview:        meta.NoPreview,
 					RequestedEncoder: meta.Encoder,
 				})

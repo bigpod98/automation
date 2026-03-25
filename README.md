@@ -49,17 +49,17 @@ stereo: false
 
 ### `jivefire_standalone`
 
+`background_image` and `thumbnail_image` must be URLs. The worker downloads them and passes the local temporary files into jivefire's renderer. Both fields are optional.
+
 ```yaml
 episode: 67
 title: "Episode Title"
 channels: 1
 bar_color: "#A40000"
 text_color: "#F8B31D"
-background_image: "background.png"
-thumbnail_image: "thumbnail.png"
+background_image: "https://example.com/background.png"
+thumbnail_image: "https://example.com/thumbnail.png"
 no_preview: true
 encoder: "software"
 output: "episode-67.mp4"
 ```
-
-`background_image` and `thumbnail_image` are resolved relative to the claimed directory when not absolute.
