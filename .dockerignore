@@ -1,0 +1,8 @@
+.git
+third_party/**/.git
+third_party/**/testdata
+dashboard/node_modules
+dashboard/.next
+README.md
+LICENSE
+config.yaml

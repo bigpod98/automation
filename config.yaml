@@ -1,0 +1,53 @@
+queue_backend: s3
+api_listen: :8080
+
+poll_interval: 5s
+batch_size: 5
+allowed_audio_extensions:
+  - .wav
+  - .flac
+  - .mp3
+  - .m4a
+  - .aac
+  - .ogg
+
+cover_download_timeout: 30s
+cover_download_max_bytes: 15728640
+
+s3:
+  region: us-east-1
+  bucket: your-automation-bucket
+  staging_dir: queues/staging
+
+queues:
+  jivetalking:
+    enabled: true
+    queue_dir: queues/jivetalking
+    output_dir: queues/jivetalking/output
+    input_prefix: automation/jivetalking/input/
+    in_progress_prefix: automation/jivetalking/in-progress/
+    failed_prefix: automation/jivetalking/failed/
+
+  jivedrop_standalone:
+    enabled: true
+    queue_dir: queues/jivedrop/standalone
+    output_dir: queues/jivedrop/standalone/output
+    input_prefix: automation/jivedrop/standalone/input/
+    in_progress_prefix: automation/jivedrop/standalone/in-progress/
+    failed_prefix: automation/jivedrop/standalone/failed/
+
+  jivedrop_hugo:
+    enabled: true
+    queue_dir: queues/jivedrop/hugo
+    output_dir: queues/jivedrop/hugo/output
+    input_prefix: automation/jivedrop/hugo/input/
+    in_progress_prefix: automation/jivedrop/hugo/in-progress/
+    failed_prefix: automation/jivedrop/hugo/failed/
+
+  jivefire_standalone:
+    enabled: true
+    queue_dir: queues/jivefire/standalone
+    output_dir: queues/jivefire/standalone/output
+    input_prefix: automation/jivefire/standalone/input/
+    in_progress_prefix: automation/jivefire/standalone/in-progress/
+    failed_prefix: automation/jivefire/standalone/failed/
